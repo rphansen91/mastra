@@ -968,13 +968,6 @@ export class Workflow<
   async #persistWorkflowSnapshot() {
     const snapshotFromActor = this.#actor?.getPersistedSnapshot();
 
-    if (!this.snapshot) {
-      this.logger.debug('Snapshot cannot be persisted. Mastra engine is not initialized', {
-        runId: this.#runId,
-      });
-      return;
-    }
-
     if (!snapshotFromActor) {
       this.logger.debug('Snapshot cannot be persisted. No snapshot received.', { runId: this.#runId });
       return;
@@ -986,7 +979,7 @@ export class Workflow<
         runId: this.#runId,
         snapshot: snapshotFromActor as unknown as WorkflowRunState,
       });
-    } else {
+    } else if (this.snapshot) {
       await this.snapshot.persist({
         runId: this.#runId,
         snapshot: snapshotFromActor,
@@ -994,19 +987,20 @@ export class Workflow<
         connectionId: this.#connectionId,
       });
       this.logger.debug('Successfully persisted workflow snapshot', { runId: this.#runId });
+    } else {
+      this.logger.debug('Snapshot cannot be persisted. Neither mastra engine nor storage is initialized.', {
+        runId: this.#runId,
+      });
+      return;
     }
 
     return this.#runId;
   }
 
   async #loadWorkflowSnapshot(runId: string) {
-    if (!this.snapshot) {
-      this.logger.debug('Snapshot cannot be loaded. Mastra engine is not initialized', { runId });
-      return;
-    }
     if (this.#mastra?.storage) {
       return this.#mastra.storage.loadWorkflowSnapshot({ runId, workflowName: this.name });
-    } else {
+    } else if (this.snapshot) {
       this.logger.debug('Loading workflow snapshot', {
         runId,
         entityName: this.#entityName,
@@ -1023,6 +1017,9 @@ export class Workflow<
         runId,
       });
       return snapshotData as Snapshot<any>;
+    } else {
+      this.logger.debug('Snapshot cannot be loaded. Neither mastra engine nor storage is initialized.', { runId });
+      return;
     }
   }
 
