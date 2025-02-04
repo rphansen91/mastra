@@ -1,5 +1,19 @@
 # retrieve-results
 
+## 0.0.1-alpha.2
+
+### Patch Changes
+
+- @mastra/rag@0.0.2-alpha.75
+- @mastra/vector-pinecone@0.0.1-alpha.19
+
+## 0.0.1-alpha.1
+
+### Patch Changes
+
+- Updated dependencies [cf4c02c]
+  - @mastra/vector-pinecone@0.0.1-alpha.18
+
 ## 0.0.1-alpha.0
 
 ### Patch Changes

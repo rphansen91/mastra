@@ -1,5 +1,22 @@
 # @mastra/github
 
+## 1.0.3-alpha.69
+
+### Patch Changes
+
+- 0696eeb: Cleanup Mastra server
+- Updated dependencies [2f17a5f]
+- Updated dependencies [cb290ee]
+- Updated dependencies [b4d7416]
+- Updated dependencies [38b7f66]
+  - @mastra/core@0.2.0-alpha.84
+
+## 1.0.3-alpha.68
+
+### Patch Changes
+
+- 03bc87c: Fix github integration
+
 ## 1.0.3-alpha.67
 
 ### Patch Changes
